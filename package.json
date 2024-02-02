@@ -1,0 +1,11 @@
+{
+  "name": "camumda-api-tutorials",
+  "version": "1.0.0",
+  "description": "Tutorials for interacting with Camunda APIs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Camunda",
+  "license": "MIT"
+}
