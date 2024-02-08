@@ -10,6 +10,7 @@
   "author": "Camunda",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.6.7",
     "dotenv": "^16.4.1",
     "request": "^2.88.2",
     "simple-oauth2": "^5.0.0"

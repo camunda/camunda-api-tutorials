@@ -1,4 +1,4 @@
-import request from "request";
+import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
 async function listClients() {
@@ -17,15 +17,13 @@ async function listClients() {
       Authorization: `Bearer ${accessToken}`
     }
   };
-  request(options, function (error, response) {
-    if (error) throw new Error(error);
-    console.log(response.body);
-    const results = JSON.parse(response.body);
-    results.forEach(x =>
-      console.log(`name is ${x.name} and id is ${x.clientId}`)
-    );
-  });
+  const response = await axios(options);
+  console.log(response.data);
+  const results = response.data;
   // emit clients to output
+  results.forEach(x =>
+    console.log(`name is ${x.name} and id is ${x.clientId}`)
+  );
 }
 
 async function addClient([clientName]) {
