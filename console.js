@@ -74,17 +74,67 @@ async function addClient([clientName]) {
   );
 }
 
-function viewClient([clientId]) {
+async function viewClient([clientId]) {
+  
+  const accessToken = await getAccessToken();
+
+  const consoleApiUrl = process.env.CONSOLE_API_URL;
+  const clusterId = process.env.CLUSTER_ID;
+  const clientId = process.env.CONSOLE_CLIENT_ID;
+
+  const url = `${consoleApiUrl}/clusters/${clusterId}/clients/${clientId}`;
+
+    var options = {
+      method: "GET",
+      url,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      },
+      data: {
+        clientId: clientId
+      }
+    };
+    const response = await axios(options);
+  
+    console.log(response.data);
+    const clientId = response.data;
+  
   console.log("viewing client:", clientId);
 }
 
-function deleteClient([clientId]) {
+async function deleteClient([clientId]) {
+
+    const accessToken = await getAccessToken();
+  
+    const consoleApiUrl = process.env.CONSOLE_API_URL;
+    const clusterId = process.env.CLUSTER_ID;
+    const clientId = process.env.CONSOLE_CLIENT_ID;
+  
+    const url = `${consoleApiUrl}/clusters/${clusterId}/clients/${clientId}`;
+  
+    var options = {
+      method: "DELETE",
+      url,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      },
+      data: {
+        clientId: clientId
+      }
+    };
+    const response = await axios(options);
+  
+    console.log(response.data);
+    const cliendId = response.data;
+
   console.log("deleting client:", clientId);
 }
 
 // These functions are aliased to specific command names for terseness.
 //   The name of each property translates to a method that can be called by the CLI.
-//   e.g. if we export a function named `list`, you can run `npm run cli console list`.
+//   e.g. i🥹f we export a function named `list`, you can run `npm run cli console list`.
 export default {
   list: listClients,
   add: addClient,
