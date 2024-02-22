@@ -9,11 +9,11 @@ async function listClients() {
   const accessToken = await getAccessToken();
 
   // These settings come from your .env file.
-  const consoleApiUrl = process.env.CONSOLE_API_URL;
+  const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
   const clusterId = process.env.CLUSTER_ID;
 
   // This is the API endpoint to list all clients within a cluster.
-  const url = `${consoleApiUrl}/clusters/${clusterId}/clients`;
+  const url = `${administrationApiUrl}/clusters/${clusterId}/clients`;
 
   // Call the clients endpoint.
   var options = {
@@ -31,9 +31,7 @@ async function listClients() {
     const results = response.data;
 
     // Emit clients to output.
-    results.forEach(x =>
-      console.log(`name is ${x.name} and id is ${x.clientId}`)
-    );
+    results.forEach(x => console.log(`Name: ${x.name}; ID: ${x.clientId}`));
   } catch (error) {
     console.error(error.message);
   }
@@ -45,11 +43,11 @@ async function addClient([clientName]) {
   const accessToken = await getAccessToken();
 
   // These settings come from your .env file.
-  const consoleApiUrl = process.env.CONSOLE_API_URL;
+  const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
   const clusterId = process.env.CLUSTER_ID;
 
   // This is the API endpoint to list all clients within a cluster.
-  const url = `${consoleApiUrl}/clusters/${clusterId}/clients`;
+  const url = `${administrationApiUrl}/clusters/${clusterId}/clients`;
 
   // Call the clients endpoint.
   var options = {
@@ -74,7 +72,7 @@ async function addClient([clientName]) {
     //  NOTE: In real life, you probably want to capture the
     //    `clientId` and `clientSecret` properties from the response.
     console.log(
-      `New client name is ${newClient.name}. Permissions are ${newClient.permissions}.`
+      `Client added! Name: ${newClient.name}. ID: ${newClient.clientId}.`
     );
   } catch (error) {
     console.error(error.message);
@@ -84,10 +82,10 @@ async function addClient([clientName]) {
 async function viewClient([clientId]) {
   const accessToken = await getAccessToken();
 
-  const consoleApiUrl = process.env.CONSOLE_API_URL;
+  const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
   const clusterId = process.env.CLUSTER_ID;
 
-  const url = `${consoleApiUrl}/clusters/${clusterId}/clients/${clientId}`;
+  const url = `${administrationApiUrl}/clusters/${clusterId}/clients/${clientId}`;
 
   var options = {
     method: "GET",
@@ -106,7 +104,7 @@ async function viewClient([clientId]) {
 
     const clientResponse = response.data;
 
-    console.log("viewing client:", clientResponse);
+    console.log("Client:", clientResponse);
   } catch (error) {
     console.error(error.message);
   }
@@ -115,10 +113,10 @@ async function viewClient([clientId]) {
 async function deleteClient([clientId]) {
   const accessToken = await getAccessToken();
 
-  const consoleApiUrl = process.env.CONSOLE_API_URL;
+  const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
   const clusterId = process.env.CLUSTER_ID;
 
-  const url = `${consoleApiUrl}/clusters/${clusterId}/clients/${clientId}`;
+  const url = `${administrationApiUrl}/clusters/${clusterId}/clients/${clientId}`;
 
   var options = {
     method: "DELETE",
@@ -143,7 +141,7 @@ async function deleteClient([clientId]) {
 
 // These functions are aliased to specific command names for terseness.
 //   The name of each property translates to a method that can be called by the CLI.
-//   e.g. i🥹f we export a function named `list`, you can run `npm run cli console list`.
+//   e.g. i🥹f we export a function named `list`, you can run `npm run cli administration list`.
 export default {
   list: listClients,
   add: addClient,

@@ -1,8 +1,8 @@
 import { AuthorizationCode } from "simple-oauth2";
 
 // These credentials come from your .env file.
-const clientID = process.env.CONSOLE_CLIENT_ID;
-const clientSecret = process.env.CONSOLE_CLIENT_SECRET;
+const clientID = process.env.ADMINISTRATION_CLIENT_ID;
+const clientSecret = process.env.ADMINISTRATION_CLIENT_SECRET;
 
 // Configure our authorization request.
 const config = {

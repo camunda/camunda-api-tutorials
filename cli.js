@@ -1,20 +1,20 @@
 // Configure environment variables based on .env file
 import "dotenv/config";
 
-import consoleApi from "./console.js";
+import admin from "./administration.js";
 
 // All API objects accessible to the CLI app are included here.
 //   The name of each property translates to an API object that can be called by the CLI.
-//   e.g. if we export a property named `console`, you can run `npm run cli console <action>`.
-const APIs = { console: consoleApi };
+//   e.g. if we export a property named `admin`, you can run `npm run cli admin <action>`.
+const APIs = { admin };
 
 // Parse the arguments passed into the CLI, and direct a specific action to a specific API object.
-//   Example: `npm run cli console list` will find the arguments `console` and `list`,
-//   and call the `list` method on the `console` API object.
+//   Example: `npm run cli administration list` will find the arguments `administration` and `list`,
+//   and call the `list` method on the `administration` API object.
 // The first two elements are the node executable and file path.
 const args = process.argv.slice(2);
 if (args.length > 0) {
-  // The first remaining argument is the name of the API object (e.g. `console`).
+  // The first remaining argument is the name of the API object (e.g. `administration`).
   const apiName = args[0];
   const API = APIs[apiName];
   if (API === undefined) {
