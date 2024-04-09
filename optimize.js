@@ -1,37 +1,35 @@
 import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
-async function viewDashboard([dashboardId]) {
+async function listDashboards([dashboardId]) {
 
-const accessToken = await getAccessToken();
-const optimizeApiUrl = process.env.OPTIMIZE_API_URL;
-const collectionId = process.env.OPTIMIZE_COLLECTION_ID;
+  const accessToken = await getAccessToken();
+  const optimizeApiUrl = process.env.OPTIMIZE_API_URL;
+  const collectionId = process.env.OPTIMIZE_COLLECTION_ID;
 
-// This is the API endpoint to view your existing dashboard IDs
-const url = `${optimizeApiUrl}/public/dashboard?collectionId=${collectionId}`;
+  // This is the API endpoint to list your existing dashboard IDs
+  const url = `${optimizeApiUrl}/public/dashboard?collectionId=${collectionId}`;
 
-    const options = {
-      method: "GET",
-      url,
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`
-      }
-    };
-  
-    try {
-      const response = await axios(options);
-  
-      // Process the results from the API call.
-      const clientResponse = response.data;
-  
-      // Emit the dashboard details.
-      console.log("Dashboard:", clientResponse);
-    } catch (error) {
-      // Emit an error from the server.
-      console.error(error.message);
+  // Configure the API call.
+  const options = {
+    method: "GET",
+    url,
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${accessToken}`
     }
+  };
+
+  try {
+    const response = await axios(options);
+    const results = response.data;
+
+    results.forEach(x => console.log(`Name: ${x.name}; ID: ${x.dashboardId}`));
+  } catch (error) {
+    // Emit an error from the server.
+    console.error(error.message);
   }
+}
 
 async function deleteDashboard([dashboardId]) {
   console.log(`deleting dashboard ${dashboardId}`);
@@ -74,6 +72,6 @@ async function deleteDashboard([dashboardId]) {
 //   e.g. if we export a function named `list`, you can run `npm run cli admin list`.
 
 export default {
-  view: viewDashboard,
+  list: listDashboards,
   delete: deleteDashboard
 };
