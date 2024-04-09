@@ -1,10 +1,10 @@
 import axios from "axios";
-import { getAccessToken } from "./auth.js";
+import { getAccessToken } from "./optimize-auth.js";
 
 async function listDashboards([dashboardId]) {
 
   const accessToken = await getAccessToken();
-  const optimizeApiUrl = process.env.OPTIMIZE_API_URL;
+  const optimizeApiUrl = process.env.OPTIMIZE_BASE_URL;
   const collectionId = process.env.OPTIMIZE_COLLECTION_ID;
 
   // This is the API endpoint to list your existing dashboard IDs
