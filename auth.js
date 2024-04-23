@@ -13,7 +13,6 @@ const componentConfiguration = {
 };
 
 // Configure our authorization request.
-
 function configureAuthorizationClient(targetApi) {
   const configSource =
     targetApi === "administration"
@@ -48,7 +47,7 @@ function getTokenParams(audience) {
 /**
  *
  * @param {"administration" | "components"} targetApi Use "administration" for only the administration API; "components" for all other component APIs.
- * @param {string} audience
+ * @param {string} audience The `audience` required by the target API.
  * @returns
  */
 export async function getAccessToken(targetApi, audience) {
@@ -64,6 +63,7 @@ export async function getAccessToken(targetApi, audience) {
 
     const result = await client.getToken(tokenParams);
     const accessToken = client.createToken(result);
+
     // Return the actual token that can be passed as an Authorization header in each request.
     return accessToken.token.token.access_token;
   } catch (error) {
