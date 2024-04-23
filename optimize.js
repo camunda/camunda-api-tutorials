@@ -1,10 +1,11 @@
 import axios from "axios";
-import { getAccessToken } from "./optimize-auth.js";
+import { getAccessToken } from "./auth.js";
 
 async function listDashboards([collectionId]) {
-  const accessToken = await getAccessToken();
-  const optimizeApiUrl = process.env.OPTIMIZE_BASE_URL;
+  const optimizeAudience = process.env.OPTIMIZE_AUDIENCE;
+  const accessToken = await getAccessToken("components", optimizeAudience);
 
+  const optimizeApiUrl = process.env.OPTIMIZE_BASE_URL;
   // This is the API endpoint to list your existing dashboard IDs
   const url = `${optimizeApiUrl}/api/public/dashboard?collectionId=${collectionId}`;
 
@@ -32,7 +33,8 @@ async function listDashboards([collectionId]) {
 async function deleteDashboard([dashboardId]) {
   console.log(`deleting dashboard ${dashboardId}`);
 
-  const accessToken = await getAccessToken();
+  const optimizeAudience = process.env.OPTIMIZE_AUDIENCE;
+  const accessToken = await getAccessToken("components", optimizeAudience);
   const optimizeApiUrl = process.env.OPTIMIZE_API_URL;
 
   const url = `${optimizeApiUrl}/public/dashboard/${dashboardId}`;
