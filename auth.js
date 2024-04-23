@@ -8,8 +8,8 @@ const adminConfiguration = {
 
 const componentConfiguration = {
   // These credentials come from your .env file.
-  clientID: process.env.OPTIMIZE_CLIENT_ID, // TODO: change env variable name
-  clientSecret: process.env.OPTIMIZE_CLIENT_SECRET // TODO: change env variable name
+  clientID: process.env.COMPONENTS_CLIENT_ID,
+  clientSecret: process.env.COMPONENTS_CLIENT_SECRET
 };
 
 // Configure our authorization request.
