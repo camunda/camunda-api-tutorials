@@ -34,9 +34,8 @@ async function deleteFile([fileId]) {
   
     const modelerAudience = process.env.MODELER_AUDIENCE;
     const accessToken = await getAccessToken("components", modelerAudience);
-    const modelerApiUrl = process.env.MODELER_API_URL;
-  
-    const url = `${modelerApiUrl}/api/v1/files/${fileId}`;
+
+    const url = `process.env.MODELER_AUDIENCE/files/${fileId}`;
   
     // Configure the API call.
     const options = {
