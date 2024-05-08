@@ -6,9 +6,7 @@ async function retrieveFile([fileId]) {
     const modelerAudience = process.env.MODELER_AUDIENCE;
     const accessToken = await getAccessToken("components", modelerAudience);
 
-    const modelerApiUrl = process.env.MODELER_BASE_URL;
-
-    const url = `${modelerApiUrl}/api/v1/files/${fileId}`;
+    const url = `process.env.MODELER_AUDIENCE/files/${fileId}`;
 
 // Configure the API call.
   const options = {
@@ -24,7 +22,7 @@ async function retrieveFile([fileId]) {
     const response = await axios(options);
     const results = response.data;
 
-    results.forEach(x => console.log(`ID: ${x.fileId}`));
+    results.forEach(x => console.log(`File retrieved! ID: ${id}. Name: ${name}`));
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
