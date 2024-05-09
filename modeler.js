@@ -6,7 +6,7 @@ async function retrieveFile([fileId]) {
     const modelerAudience = process.env.MODELER_AUDIENCE;
     const accessToken = await getAccessToken("components", modelerAudience);
 
-    const url = `process.env.MODELER_AUDIENCE/files/${fileId}`;
+    const url = `${process.env.MODELER_BASE_URL}/files/${fileId}`;
 
 // Configure the API call.
   const options = {
