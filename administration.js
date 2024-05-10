@@ -46,13 +46,8 @@ async function listClients() {
 
 // An action that adds a new client.
 async function addClient([clientName]) {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
