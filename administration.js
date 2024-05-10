@@ -91,13 +91,8 @@ async function addClient([clientName]) {
 
 // An action that views one client.
 async function viewClient([clientId]) {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
