@@ -38,11 +38,10 @@ async function listDashboards([collectionId]) {
 async function deleteDashboard([dashboardId]) {
   console.log(`deleting dashboard ${dashboardId}`);
 
-  const optimizeAudience = process.env.OPTIMIZE_AUDIENCE;
-  const accessToken = await getAccessToken("components", optimizeAudience);
-  const optimizeApiUrl = process.env.OPTIMIZE_API_URL;
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
-  const url = `${optimizeApiUrl}/public/dashboard/${dashboardId}`;
+  const optimizeApiUrl = process.env.OPTIMIZE_BASE_URL;
+  const url = `${optimizeApiUrl}/api/public/dashboard/${dashboardId}`;
 
   // Configure the API call.
   const options = {
