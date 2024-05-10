@@ -1,15 +1,16 @@
 import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
+const authorizationConfiguration = {
+  clientId: process.env.ADMINISTRATION_CLIENT_ID,
+  clientSecret: process.env.ADMINISTRATION_CLIENT_SECRET,
+  audience: process.env.ADMINISTRATION_AUDIENCE
+};
+
 // An action that lists all clients.
 async function listClients() {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
@@ -45,13 +46,8 @@ async function listClients() {
 
 // An action that adds a new client.
 async function addClient([clientName]) {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
@@ -95,13 +91,8 @@ async function addClient([clientName]) {
 
 // An action that views one client.
 async function viewClient([clientId]) {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
@@ -136,13 +127,8 @@ async function viewClient([clientId]) {
 
 // An action that deletes a client.
 async function deleteClient([clientId]) {
-  const administrationAudience = process.env.ADMINISTRATION_AUDIENCE;
-
   // Every request needs an access token.
-  const accessToken = await getAccessToken(
-    "administration",
-    administrationAudience
-  );
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const administrationApiUrl = process.env.ADMINISTRATION_API_URL;
