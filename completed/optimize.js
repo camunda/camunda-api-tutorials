@@ -59,7 +59,7 @@ async function deleteDashboard([dashboardId]) {
 
     // Process the results from the API call.
     if (response.status === 204) {
-      console.log(`Dashboard ${clientId} was deleted!`);
+      console.log(`Dashboard ${dashboardId} was deleted!`);
     } else {
       // Emit an unexpected error message.
       console.error("Unable to delete dashboard!");
