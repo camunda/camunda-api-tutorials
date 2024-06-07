@@ -1,12 +1,19 @@
 import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
+const authorizationConfiguration = {
+  clientId: process.env.MODELER_CLIENT_ID,
+  clientSecret: process.env.MODELER_CLIENT_SECRET,
+  audience: process.env.MODELER_AUDIENCE
+};
+
 // An action that retrieves a file.
 async function retrieveFile([fileId]) {
-    const modelerAudience = process.env.MODELER_AUDIENCE;
-    const accessToken = await getAccessToken("components", modelerAudience);
+    const accessToken = await getAccessToken(authorizationConfiguration);
 
-    const url = `${process.env.MODELER_BASE_URL}/files/${fileId}`;
+    const ModelerBaseUrl = process.env.MODELER_BASE_URL;
+
+    const url = `${ModelerBaseUrl}/files/${fileId}`;
 
 // Configure the API call.
   const options = {
@@ -31,11 +38,11 @@ async function retrieveFile([fileId]) {
 
 async function deleteFile([fileId]) {
     console.log(`deleting file ${fileId}`);
-  
-    const modelerAudience = process.env.MODELER_AUDIENCE;
-    const accessToken = await getAccessToken("components", modelerAudience);
 
-    const url = `${process.env.MODELER_BASE_URL}/files/${fileId}`;
+    const accessToken = await getAccessToken(authorizationConfiguration);
+    
+    const ModelerBaseUrl = process.env.MODELER_BASE_URL;
+    const url = `${ModelerBaseUrl}/files/${fileId}`;
   
     // Configure the API call.
     const options = {
