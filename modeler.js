@@ -7,29 +7,38 @@ const authorizationConfiguration = {
   audience: process.env.MODELER_AUDIENCE
 };
 
-// An action that retrieves a file.
-async function retrieveFile([fileId]) {
+// An action that creates a file.
+async function createFile([fileName]) {
     const accessToken = await getAccessToken(authorizationConfiguration);
 
     const ModelerBaseUrl = process.env.MODELER_BASE_URL;
 
-    const url = `${ModelerBaseUrl}/files/${fileId}`;
+    const url = `${ModelerBaseUrl}/files` ;
 
-// Configure the API call.
+  // Configure the API call.
   const options = {
-    method: "GET",
+    method: "POST",
     url,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
+    },
+    data: {
+      // The body contains information about the new file.
+      fileName: fileName
     }
   };
 
   try {
+    // Call the add endpoint.
     const response = await axios(options);
-    const results = response.data;
 
-    results.forEach(x => console.log(`File retrieved! ID: ${id}. Name: ${name}`));
+    // Process the results from the API call.
+    const newFile = response.data;
+
+    console.log(
+      `Client added! Name: ${newFile.name}. ID: ${newFile.projectId}.`
+    );
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
@@ -72,6 +81,6 @@ async function deleteFile([fileId]) {
   }
 
 export default {
-    retrieve: retrieveFile,
+    create: createFile,
     delete: deleteFile
   };
