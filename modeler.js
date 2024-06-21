@@ -7,13 +7,16 @@ const authorizationConfiguration = {
   audience: process.env.MODELER_AUDIENCE
 };
 
-// An action that creates a file.
-async function createFile([fileName]) {
-    const accessToken = await getAccessToken(authorizationConfiguration);
+// An action that creates a new project.
+async function createProject([projectName]) {
+  // Every request needs an access token.
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
-    const ModelerBaseUrl = process.env.MODELER_BASE_URL;
+  // These settings come from your .env file.
+  const modelerApiUrl = process.env.MODELER_API_URL;
 
-    const url = `${ModelerBaseUrl}/files` ;
+  // This is the API endpoint to create a new project.
+  const url = `${modelerApiUrl}/projects`;
 
   // Configure the API call.
   const options = {
@@ -24,8 +27,8 @@ async function createFile([fileName]) {
       Authorization: `Bearer ${accessToken}`
     },
     data: {
-      // The body contains information about the new file.
-      fileName: fileName
+      // The body contains information about the new project.
+      projectName: projectName
     }
   };
 
@@ -34,10 +37,10 @@ async function createFile([fileName]) {
     const response = await axios(options);
 
     // Process the results from the API call.
-    const newFile = response.data;
+    const newProject = response.data;
 
     console.log(
-      `Client added! Name: ${newFile.name}. ID: ${newFile.projectId}.`
+      `Project added! Name: ${newProject.name}. ID: ${newProject.projectId}.`
     );
   } catch (error) {
     // Emit an error from the server.
@@ -45,42 +48,84 @@ async function createFile([fileName]) {
   }
 }
 
-async function deleteFile([fileId]) {
-    console.log(`deleting file ${fileId}`);
+// An action that views one project.
+async function viewProject([projectId]) {
+  // Every request needs an access token.
+  const accessToken = await getAccessToken(authorizationConfiguration);
 
-    const accessToken = await getAccessToken(authorizationConfiguration);
-    
-    const ModelerBaseUrl = process.env.MODELER_BASE_URL;
-    const url = `${ModelerBaseUrl}/files/${fileId}`;
-  
-    // Configure the API call.
-    const options = {
-      method: "DELETE",
-      url,
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`
-      }
-    };
-  
-    try {
-      // Call the delete endpoint.
-      const response = await axios(options);
-  
-      // Process the results from the API call.
-      if (response.status === 204) {
-        console.log(`File ${fileId} was deleted!`);
-      } else {
-        // Emit an unexpected error message.
-        console.error("Unable to delete file!");
-      }
-    } catch (error) {
-      // Emit an error from the server.
-      console.error(error.message);
+  // These settings come from your .env file.
+  const modelerApiUrl = process.env.MODELER_API_URL;
+
+  // This is the API endpoint to view a single project.
+  const url = `${modelerApiUrl}/projects/${projectId}`;
+
+  // Configure the API call.
+  const options = {
+    method: "GET",
+    url,
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${accessToken}`
     }
-  }
-
-export default {
-    create: createFile,
-    delete: deleteFile
   };
+
+  try {
+    const response = await axios(options);
+
+    // Process the results from the API call.
+    const id = response.data;
+
+    // Emit the project details.
+    console.log("Project:", id);
+  } catch (error) {
+    // Emit an error from the server.
+    console.error(error.message);
+  }
+}
+
+// An action that deletes a project.
+async function deleteProject([projectId]) {
+  // Every request needs an access token.
+  const accessToken = await getAccessToken(authorizationConfiguration);
+
+  // These settings come from your .env file.
+  const modelerApiUrl = process.env.MODELER_API_URL;
+
+  // This is the API endpoint to delete a project.
+  const url = `${modelerApiUrl}/projects/${projectId}`;
+
+  // Configure the API call.
+  const options = {
+    method: "DELETE",
+    url,
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${accessToken}`
+    }
+  };
+
+  try {
+    // Call the delete endpoint.
+    const response = await axios(options);
+
+    // Process the results from the API call.
+    if (response.status === 204) {
+      console.log(`Project ${projectId} was deleted!`);
+    } else {
+      // Emit an unexpected error message.
+      console.error("Unable to delete project!");
+    }
+  } catch (error) {
+    // Emit an error from the server.
+    console.error(error.message);
+  }
+}
+
+// These functions are aliased to specific command names for terseness.
+//   The name of each property translates to a method that can be called by the CLI.
+//   e.g. if we export a function named `create`, you can run `npm run cli modeler create`.
+export default {
+  create: createProject,
+  view: viewProject,
+  delete: deleteProject
+};
