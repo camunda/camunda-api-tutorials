@@ -40,7 +40,7 @@ async function createProject([projectName]) {
     const newProject = response.data;
 
     console.log(
-      `Project added! Name: ${newProject.name}. ID: ${newProject.projectId}.`
+      `Project added! Name: ${newProject.name}. ID: ${newProject.id}.`
     );
   } catch (error) {
     // Emit an error from the server.
