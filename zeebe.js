@@ -38,11 +38,12 @@ async function assignUser([assignee]) {
       const response = await axios(options);
   
       // Process the results from the API call.
-      const assignee = response.data;
-  
-      console.log(
-        `User task assigned to ${assignee.assignee}.`
-      );
+    if (response.status === 204) {
+      console.log(`User task assigned to ${assignee}.`);
+    } else {
+      // Emit an unexpected error message.
+      console.error("Unable to assign this user!");
+    }
     } catch (error) {
       // Emit an error from the server.
       console.error(error.message);
