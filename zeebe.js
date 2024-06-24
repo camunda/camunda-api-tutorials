@@ -50,7 +50,7 @@ async function assignTask([assignee]) {
     }
   }
 
-async function unassignUser([assignee]) {
+async function unassignTask([assignee]) {
   console.log(`unassigning user ${assignee}`);
 
   const accessToken = await getAccessToken(authorizationConfiguration);
