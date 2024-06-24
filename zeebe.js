@@ -8,7 +8,7 @@ const authorizationConfiguration = {
 };
 
 // An action that assigns a user task.
-async function assignTask([assignee]) {
+async function assignUser([userTaskKey, assignee]) {
     // Every request needs an access token.
     const accessToken = await getAccessToken(authorizationConfiguration);
   
@@ -50,8 +50,8 @@ async function assignTask([assignee]) {
     }
   }
 
-async function unassignTask([assignee]) {
-  console.log(`unassigning user ${assignee}`);
+async function unassignUser([userTaskKey]) {
+  console.log(`unassigning user`);
 
   const accessToken = await getAccessToken(authorizationConfiguration);
 
