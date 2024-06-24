@@ -54,7 +54,7 @@ async function viewProject([projectId]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
-  const modelerApiUrl = process.env.MODELER_API_URL;
+  const modelerApiUrl = process.env.MODELER_BASE_URL;
 
   // This is the API endpoint to view a single project.
   const url = `${modelerApiUrl}/projects/${projectId}`;
