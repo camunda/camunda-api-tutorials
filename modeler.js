@@ -28,7 +28,7 @@ async function createProject([projectName]) {
     },
     data: {
       // The body contains information about the new project.
-      projectName: projectName
+      name: projectName
     }
   };
 
