@@ -13,7 +13,7 @@ async function createProject([projectName]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
-  const modelerApiUrl = process.env.MODELER_API_URL;
+  const modelerApiUrl = process.env.MODELER_BASE_URL;
 
   // This is the API endpoint to create a new project.
   const url = `${modelerApiUrl}/projects`;
