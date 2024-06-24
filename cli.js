@@ -3,11 +3,12 @@ import "dotenv/config";
 
 import admin from "./administration.js";
 import optimize from "./optimize.js";
+import zeebe from "./zeebe.js";
 
 // All API objects accessible to the CLI app are included here.
 //   The name of each property translates to an API object that can be called by the CLI.
 //   e.g. if we export a property named `admin`, you can run `npm run cli admin <action>`.
-const APIs = { admin, optimize };
+const APIs = { admin, optimize, zeebe };
 
 // Parse the arguments passed into the CLI, and direct a specific action to a specific API object.
 //   Example: `npm run cli administration list` will find the arguments `administration` and `list`,
