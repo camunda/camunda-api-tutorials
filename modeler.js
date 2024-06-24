@@ -73,10 +73,10 @@ async function viewProject([projectId]) {
     const response = await axios(options);
 
     // Process the results from the API call.
-    const id = response.data;
+    const data = response.data;
 
     // Emit the project details.
-    console.log("Project:", id);
+    console.log("Project:", data);
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
