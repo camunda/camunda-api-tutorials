@@ -108,7 +108,7 @@ async function viewProject([projectId]) {
     // Process the results from the API call.
     const project = response.data;
 
-    // Emit new collaborator to output.
+    // Emit the project to output.
     console.log("Project:", project);
   } catch (error) {
     // Emit an error from the server.
