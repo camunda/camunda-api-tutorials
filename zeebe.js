@@ -76,7 +76,7 @@ async function unassignUser([userTaskKey]) {
 
     // Process the results from the API call.
     if (response.status === 204) {
-      console.log(`${assignee} was unassigned from this user task!`);
+      console.log("User task has been unassigned!");
     } else {
       // Emit an unexpected error message.
       console.error("Unable to unassign this user task!");
