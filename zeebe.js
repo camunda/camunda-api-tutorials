@@ -7,7 +7,7 @@ const authorizationConfiguration = {
   audience: process.env.ZEEBE_AUDIENCE
 };
 
-// An action that assigns a user task.
+// An action that assigns a Zeebe user task.
 async function assignUser([userTaskKey, assignee]) {
     // Every request needs an access token.
     const accessToken = await getAccessToken(authorizationConfiguration);
