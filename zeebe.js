@@ -53,7 +53,6 @@ async function unassignUser([userTaskKey]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   const ZeebeApiUrl = process.env.ZEEBE_BASE_URL;
-  const userTaskKey = process.env.USER_TASK_KEY;
 
   const url = `${ZeebeApiUrl}/user-tasks/${userTaskKey}/assignee`;
 
