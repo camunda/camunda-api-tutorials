@@ -14,7 +14,6 @@ async function assignUser([userTaskKey, assignee]) {
   
     // These settings come from your .env file.
     const ZeebeApiUrl = process.env.ZEEBE_BASE_URL;
-    const userTaskKey = process.env.USER_TASK_KEY;
   
     // This is the API endpoint to assign a user task.
     const url = `${ZeebeApiUrl}/user-tasks/${userTaskKey}/assignment`;
