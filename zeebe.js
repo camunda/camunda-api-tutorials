@@ -79,7 +79,7 @@ async function unassignUser([userTaskKey]) {
       console.log(`${assignee} was unassigned from this user task!`);
     } else {
       // Emit an unexpected error message.
-      console.error("Unable to unassign this user!");
+      console.error("Unable to unassign this user task!");
     }
   } catch (error) {
     // Emit an error from the server.
