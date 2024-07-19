@@ -50,8 +50,6 @@ async function assignUser([userTaskKey, assignee]) {
   }
 
 async function unassignUser([userTaskKey]) {
-  console.log(`unassigning user`);
-
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   const ZeebeApiUrl = process.env.ZEEBE_BASE_URL;
