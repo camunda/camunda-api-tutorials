@@ -8,20 +8,22 @@ const authorizationConfiguration = {
 };
 
 // An action that creates a new project.
-async function createProject([projectName]) {
+async function createProject([projectName, adminEmail]) {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const modelerApiUrl = process.env.MODELER_BASE_URL;
 
+  // Step 1: Create a new project.
+
   // This is the API endpoint to create a new project.
-  const url = `${modelerApiUrl}/projects`;
+  const projectUrl = `${modelerApiUrl}/projects`;
 
   // Configure the API call.
-  const options = {
+  const projectOptions = {
     method: "POST",
-    url,
+    url: projectUrl,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
@@ -33,45 +35,69 @@ async function createProject([projectName]) {
   };
 
   try {
-    // Call the add endpoint.
-    const response = await axios(options);
+    // Call the add project endpoint.
+    const response = await axios(projectOptions);
 
-    // Process the results from the API call.
+    // Capture data from the new project.
     const newProject = response.data;
 
     console.log(
       `Project added! Name: ${newProject.name}. ID: ${newProject.id}.`
     );
+
+    // Step 2: Add a collaborator to the project.
+
+    // This is the API endpoint to add a collaborator to a project.
+    const collaboratorUrl = `${modelerApiUrl}/collaborators`;
+
+    // Configure the API call.
+    const collaboratorOptions = {
+      method: "PUT",
+      url: collaboratorUrl,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      },
+      data: {
+        // The body contains information about the project and collaborator.
+        email: adminEmail,
+        projectId: newProject.id,
+        role: "project_admin"
+      }
+    };
+
+    // Call the add collaborator endpoint.
+    const collaboratorResponse = await axios(collaboratorOptions);
+
+    if (collaboratorResponse.status === 204) {
+      console.log(`Collaborator added! Email: ${adminEmail}.`);
+    } else {
+      console.error("Unable to add collaborator!");
+    }
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
   }
 }
 
-// A function that adds a new collaborator to a project
-async function addCollaborator([collaboratorEmail, projectId, role]) {
+// An action to view details of a project.
+async function viewProject([projectId]) {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const modelerApiUrl = process.env.MODELER_BASE_URL;
 
-  // This is the API endpoint to add a new collaborator.
-  const url = `${modelerApiUrl}/collaborators`;
+  // This is the API endpoint to retrieve details of a project.
+  const url = `${modelerApiUrl}/projects/${projectId}`;
 
   // Configure the API call.
   const options = {
-    method: "PUT",
+    method: "GET",
     url,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
-    },
-    data: {
-      // The body contains information about the new collaborator.
-      collaboratorEmail: collaboratorEmail,
-      projectId: projectId,
-      role: role
     }
   };
 
@@ -80,54 +106,48 @@ async function addCollaborator([collaboratorEmail, projectId, role]) {
     const response = await axios(options);
 
     // Process the results from the API call.
-    const newCollaborator = response.data;
+    const project = response.data;
 
-    // Emit new collaborator to output.
-    console.log(
-      `Collaborator added! Email: ${newCollaborator.email}. Role: ${newCollaborator.role}.`
-    );
+    // Emit the project to output.
+    console.log("Project:", project);
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
   }
 }
 
-// A function that searches for collaborators.
-async function findCollaborator([]) {
+// An action that deletes a project.
+async function deleteProject([projectId]) {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const modelerApiUrl = process.env.MODELER_BASE_URL;
 
-  // This is the API endpoint to search for a collaborator.
-  const url = `${modelerApiUrl}/collaborators/search`;
+  // This is the API endpoint to delete a project.
+  const url = `${modelerApiUrl}/projects/${projectId}`;
 
   // Configure the API call.
   const options = {
-    method: "POST",
+    method: "DELETE",
     url,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
-    },
-    data: {
-      // The body contains information about the collaborator you're searchiing for.
-      collaboratorEmail: collaboratorEmail
     }
   };
 
   try {
-    // Call the endpoint.
+    // Call the delete endpoint.
     const response = await axios(options);
 
     // Process the results from the API call.
-    const collaboratorEmail = response.data;
-
-    // Emit collaborator to output.
-    console.log(
-      `Collaborator found! Email: ${collaboratorEmail.email}.`
-    );
+    if (response.status === 204) {
+      console.log(`Project ${projectId} was deleted!`);
+    } else {
+      // Emit an unexpected error message.
+      console.error("Unable to delete project!");
+    }
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
@@ -139,6 +159,6 @@ async function findCollaborator([]) {
 //   e.g. if we export a function named `create`, you can run `npm run cli modeler create`.
 export default {
   create: createProject,
-  add: addCollaborator,
-  find: findCollaborator
+  view: viewProject,
+  delete: deleteProject
 };
