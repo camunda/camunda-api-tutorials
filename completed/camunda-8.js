@@ -32,7 +32,7 @@ async function getUser() {
     // Process the results from the API call.
     const userKey = response.data;
 
-    // Emit the user ID to output.
+    // Emit the user key to output.
     console.log("User key:", userKey);
   } catch (error) {
     // Emit an error from the server.
