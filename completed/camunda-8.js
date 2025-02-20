@@ -100,11 +100,6 @@ async function assignUser([groupKey, userKey]) {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
     },
-    data: {
-      // The body contains information about the new assignment.
-      assignee: assignee
-// Is this right??
-    }
   };
 
   try {
@@ -113,9 +108,7 @@ async function assignUser([groupKey, userKey]) {
 
     // Process the results from the API call.
   if (response.status === 204) {
-    console.log(`Group assigned to ${assignee}.`);
-
-  // Should this be user key above??
+    console.log(`Group assigned to ${userKey}.`);
   } else {
     // Emit an unexpected error message.
     console.error("Unable to assign this user!");
