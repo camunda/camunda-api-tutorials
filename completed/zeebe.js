@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../auth.js";
+import { getAccessToken } from "./auth.js";
 
 const authorizationConfiguration = {
   clientId: process.env.ZEEBE_CLIENT_ID,

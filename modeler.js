@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../auth.js";
+import { getAccessToken } from "./auth.js";
 
 async function createProject([projectName, adminEmail]) {
     console.log(
