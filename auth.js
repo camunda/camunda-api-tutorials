@@ -38,7 +38,9 @@ function configureAuthorizationClient({ clientId, clientSecret }) {
     },
     auth: {
       // This is the URL for our auth server.
-      tokenHost: "https://login.cloud.camunda.io/oauth/token"
+      tokenHost:
+        process.env.ZEEBE_AUTHORIZATION_SERVER_URL ||
+        "https://login.cloud.camunda.io/oauth/token"
     },
     options: {
       authorizationMethod: "body"
