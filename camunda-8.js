@@ -1,43 +1,33 @@
 import axios from "axios";
-import { getAccessToken } from "../auth.js";
+import { getAccessToken } from "./auth.js";
 
-const authorizationConfiguration = {
-  clientId: process.env.ZEEBE_CLIENT_ID,
-  clientSecret: process.env.ZEEBE_CLIENT_SECRET,
-  audience: process.env.ZEEBE_AUDIENCE
-};
-
-async function getUser() {
-    console.log("User key:", userKey);
+// An action that lists all roles.
+async function listRoles() {
+  console.log("listing roles");
 }
 
-async function createGroup([groupName]) {
-    console.log(
-      `Group added! Name: ${newGroup.name}. Key: ${newGroup.groupKey}.`
-    );
+// An action that creates a role.
+async function createRole([roleName]) {
+  console.log(`adding role ${roleName}`);
 }
 
-async function assignUser([groupKey, userKey]) {
-    console.log(`Group assigned to ${assignee}.`);
+// An action that retrieves a role.
+async function getRole([roleKey]) {
+  console.log(`viewing role ${roleKey}`);
 }
 
-async function retrieveGroup([groupKey]) {
-    results.forEach(x => console.log(`Name: ${x.name}; ID: ${x.assignedMemberKeys
-    }`));
-}
-
-async function deleteGroup([groupKey]) {
-      console.log("Group deleted!");
+// An action that deletes a role.
+async function deleteRole([roleKey]) {
+  console.log(`deleting role ${roleKey}`);
 }
 
 // These functions are aliased to specific command names for terseness.
 //   The name of each property translates to a method that can be called by the CLI.
-//   e.g. if we export a function named `assign`, you can run `npm run cli camunda8 get`.
+//   e.g. if we export a function named `list`, you can run `npm run cli zeebe get`.
 
 export default {
-  get: getUser,
-  create: createGroup,
-  assign: assignUser,
-  retrieve: retrieveGroup,
-  delete: deleteGroup
+  list: listRoles,
+  create: createRole,
+  view: getRole,
+  delete: deleteRole
 };

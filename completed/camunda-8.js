@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../auth.js";
+import { getAccessToken } from "./auth.js";
 
 const authorizationConfiguration = {
   clientId: process.env.ZEEBE_CLIENT_ID,
@@ -7,22 +7,27 @@ const authorizationConfiguration = {
   audience: process.env.ZEEBE_AUDIENCE
 };
 
-// Retrieves the current authenticated user key.
-async function getUser() {
+// An action that lists all roles.
+async function listRoles() {
+  // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
+  // These settings come from your .env file.
   const camundaApiUrl = process.env.ZEEBE_BASE_URL;
-  // This is the API endpoint to retrieve the current authenticated user key.
-  const url = `${camundaApiUrl}/authentication/me`;
+
+  // This is the API endpoint to query roles.
+  const url = `${camundaApiUrl}/roles/search`;
 
   // Configure the API call.
   const options = {
-    method: "GET",
+    method: "POST",
     url,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${accessToken}`
-    }
+    },
+    // No filtering/paging/sorting, we want all roles.
+    data: {}
   };
 
   try {
@@ -30,18 +35,20 @@ async function getUser() {
     const response = await axios(options);
 
     // Process the results from the API call.
-    const userKey = response.data;
+    const results = response.data;
 
-    // Emit the user key to output.
-    console.log("User key:", userKey);
+    // Emit roles to output.
+    results.items.forEach(x =>
+      console.log(`Role Name: ${x.name}; key: ${x.key}`)
+    );
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
   }
 }
 
-// An action that creates a group.
-async function createGroup([groupName]) {
+// An action that creates a role.
+async function createRole([roleName]) {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
@@ -49,7 +56,7 @@ async function createGroup([groupName]) {
   const camundaApiUrl = process.env.ZEEBE_BASE_URL;
 
   // This is the API endpoint to add a new client to a cluster.
-  const url = `${camundaApiUrl}/groups`;
+  const url = `${camundaApiUrl}/roles`;
 
   // Configure the API call.
   const options = {
@@ -60,8 +67,8 @@ async function createGroup([groupName]) {
       Authorization: `Bearer ${accessToken}`
     },
     data: {
-      // The body contains information about the new group.
-      groupName : groupName
+      // The body contains information about the new role.
+      name: roleName
     }
   };
 
@@ -69,66 +76,26 @@ async function createGroup([groupName]) {
     const response = await axios(options);
 
     // Process the results from the API call.
-    const newGroup = response.data;
+    const newRole = response.data;
 
-    // Emit new group to output.
-    console.log(
-      `Group added! Name: ${newGroup.name}. Key: ${newGroup.groupKey}.`
-    );
+    // Emit new role to output.
+    console.log(`Role added! Name: ${roleName}. Key: ${newRole.roleKey}.`);
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
   }
 }
 
-// An action that assigns a user to a group by a key.
-async function assignUser([groupKey, userKey]) {
+// An action that retrieves a role.
+async function getRole([roleKey]) {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
   const camundaApiUrl = process.env.ZEEBE_BASE_URL;
 
-  // This is the API endpoint to assign a user to a group.
-  const url = `${camundaApiUrl}/groups/${groupKey}/users/${userKey}`;
-
-  // Configure the API call.
-  const options = {
-    method: "POST",
-    url,
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${accessToken}`
-    },
-  };
-
-  try {
-    // Call the add endpoint.
-    const response = await axios(options);
-
-    // Process the results from the API call.
-  if (response.status === 204) {
-    console.log(`Group assigned to ${userKey}.`);
-  } else {
-    // Emit an unexpected error message.
-    console.error("Unable to assign this user!");
-  }
-  } catch (error) {
-    // Emit an error from the server.
-    console.error(error.message);
-  }
-}
-
-// An action that retrieves assigned member keys within a group.
-async function retrieveGroup([groupKey]) {
-  // Every request needs an access token.
-  const accessToken = await getAccessToken(authorizationConfiguration);
-
-  // These settings come from your .env file.
-  const camundaApiUrl = process.env.ZEEBE_BASE_URL;
-
-  // This is the API endpoint to list all assigned member keys within a group.
-  const url = `${camundaApiUrl}/groups/${groupKey}`;
+  // This is the API endpoint to get a specific role.
+  const url = `${camundaApiUrl}/roles/${roleKey}`;
 
   // Configure the API call.
   const options = {
@@ -147,23 +114,25 @@ async function retrieveGroup([groupKey]) {
     // Process the results from the API call.
     const results = response.data;
 
-    // Emit clients to output.
-    results.forEach(x => console.log(`Name: ${x.name}; ID: ${x.assignedMemberKeys
-    }`));
-// Not sure how to format the above -- is forEach needed??
+    // Emit role to output.
+    console.log(
+      `Role Name: ${results.name}; Key: ${
+        results.key
+      }; Members: ${JSON.stringify(results.assignedMemberKeys)}`
+    );
   } catch (error) {
     // Emit an error from the server.
     console.error(error.message);
   }
 }
 
-// An action to delete a group.
-async function deleteGroup([groupKey]) {
+// An action that deletes a role.
+async function deleteRole([roleKey]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   const camundaApiUrl = process.env.ZEEBE_BASE_URL;
 
-  const url = `${camundaApiUrl}/groups/${groupKey}`;
+  const url = `${camundaApiUrl}/roles/${roleKey}`;
 
   // Configure the API call.
   const options = {
@@ -181,10 +150,10 @@ async function deleteGroup([groupKey]) {
 
     // Process the results from the API call.
     if (response.status === 204) {
-      console.log("Group deleted!");
+      console.log("Role deleted!");
     } else {
       // Emit an unexpected error message.
-      console.error("Unable to delete this group!");
+      console.error("Unable to delete this role!");
     }
   } catch (error) {
     // Emit an error from the server.
@@ -197,9 +166,8 @@ async function deleteGroup([groupKey]) {
 //   e.g. if we export a function named `list`, you can run `npm run cli zeebe get`.
 
 export default {
-  get: getUser,
-  create: createGroup,
-  assign: assignUser,
-  retrieve: retrieveGroup,
-  delete: deleteGroup
+  list: listRoles,
+  create: createRole,
+  view: getRole,
+  delete: deleteRole
 };
