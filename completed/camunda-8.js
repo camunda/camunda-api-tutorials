@@ -118,7 +118,7 @@ async function getRole([roleKey]) {
     console.log(
       `Role Name: ${results.name}; Key: ${
         results.key
-      }; Members: ${JSON.stringify(results.assignedMemberKeys)}`
+      };`
     );
   } catch (error) {
     // Emit an error from the server.
