@@ -2,9 +2,10 @@ import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
 const authorizationConfiguration = {
-  clientId: process.env.ZEEBE_CLIENT_ID,
-  clientSecret: process.env.ZEEBE_CLIENT_SECRET,
-  audience: process.env.ZEEBE_AUDIENCE
+  clientId: process.env.CAMUNDA_CLIENT_ID,
+  clientSecret: process.env.CAMUNDA_CLIENT_SECRET,
+    // These settings come from your .env file. Note that CAMUNDA_TOKEN_AUDIENCE is represented by ZEEBE_TOKEN_AUDIENCE.
+  audience: process.env.CAMUNDA_TOKEN_AUDIENCE
 };
 
 // An action that lists all roles.
@@ -12,8 +13,8 @@ async function listRoles() {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
-  // These settings come from your .env file.
-  const camundaApiUrl = process.env.ZEEBE_BASE_URL;
+  // These settings come from your .env file. Note that CAMUNDA_REST_ADDRESS is represented by ZEEBE_REST_ADDRESS.
+  const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
 
   // This is the API endpoint to query roles.
   const url = `${camundaApiUrl}/roles/search`;
@@ -53,7 +54,7 @@ async function createRole([roleName]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
-  const camundaApiUrl = process.env.ZEEBE_BASE_URL;
+  const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
 
   // This is the API endpoint to add a new client to a cluster.
   const url = `${camundaApiUrl}/roles`;
@@ -92,7 +93,7 @@ async function getRole([roleKey]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
   // These settings come from your .env file.
-  const camundaApiUrl = process.env.ZEEBE_BASE_URL;
+  const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
 
   // This is the API endpoint to get a specific role.
   const url = `${camundaApiUrl}/roles/${roleKey}`;
@@ -130,7 +131,7 @@ async function getRole([roleKey]) {
 async function deleteRole([roleKey]) {
   const accessToken = await getAccessToken(authorizationConfiguration);
 
-  const camundaApiUrl = process.env.ZEEBE_BASE_URL;
+  const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
 
   const url = `${camundaApiUrl}/roles/${roleKey}`;
 
