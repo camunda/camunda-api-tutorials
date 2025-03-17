@@ -4,7 +4,7 @@ import { getAccessToken } from "./auth.js";
 const authorizationConfiguration = {
   clientId: process.env.CAMUNDA_CLIENT_ID,
   clientSecret: process.env.CAMUNDA_CLIENT_SECRET,
-    // These settings come from your .env file. Note that CAMUNDA_TOKEN_AUDIENCE is represented by ZEEBE_TOKEN_AUDIENCE.
+    // These settings come from your .env file. Note that CAMUNDA_TOKEN_AUDIENCE is represented by ZEEBE_TOKEN_AUDIENCE in the Console UI.
   audience: process.env.CAMUNDA_TOKEN_AUDIENCE
 };
 
@@ -13,7 +13,7 @@ async function listRoles() {
   // Every request needs an access token.
   const accessToken = await getAccessToken(authorizationConfiguration);
 
-  // These settings come from your .env file. Note that CAMUNDA_REST_ADDRESS is represented by ZEEBE_REST_ADDRESS.
+  // These settings come from your .env file. Note that CAMUNDA_REST_ADDRESS is represented by ZEEBE_REST_ADDRESS in the Console UI.
   const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
 
   // This is the API endpoint to query roles.
