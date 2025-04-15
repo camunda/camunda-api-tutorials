@@ -13,7 +13,7 @@ async function createInstance() {
 
 // An action that gets the process instance by the process instance key.
 async function viewInstance() {
-    console.error(`obtaining process instance`);
+    console.log(`obtaining process instance`);
 }
 
 // These functions are aliased to specific command names for terseness.
