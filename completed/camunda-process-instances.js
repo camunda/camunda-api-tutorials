@@ -12,8 +12,45 @@ async function createInstance() {
 }
 
 // An action that gets the process instance by the process instance key.
-async function viewInstance() {
-    console.error(`obtaining process instance`);
+async function viewInstance([processInstanceKey]) {
+
+  // Every request needs an access token.
+  const accessToken = await getAccessToken(authorizationConfiguration);
+
+  // These settings come from your .env file.
+  const camundaApiUrl = process.env.CAMUNDA_REST_ADDRESS;
+
+  // This is the API endpoint to get a specific role.
+  const url = `${camundaApiUrl}/processinstances/${processInstanceKey}`;
+
+    // Configure the API call.
+    const options = {
+      method: "GET",
+      url,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+
+    try {
+      // Call the endpoint.
+      const response = await axios(options);
+  
+      // Process the results from the API call.
+      const results = response.data;
+  
+      // Emit role to output.
+      console.log(
+        `Process instance name: ${results.processDefinitionName
+        }; State: ${
+          results.state
+        };`
+      );
+    } catch (error) {
+      // Emit an error from the server.
+      console.error(error.message);
+    }
 }
 
 // These functions are aliased to specific command names for terseness.
