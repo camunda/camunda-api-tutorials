@@ -8,12 +8,12 @@ async function deployResources() {
 
 // An action that creates and starts an instance of the specified process.
 async function createInstance() {
-  console.log(`creating process instance`);
+  console.log("creating process instance");
 }
 
 // An action that gets the process instance by the process instance key.
 async function viewInstance() {
-    console.log(`obtaining process instance`);
+    console.log("obtaining process instance");
 }
 
 // These functions are aliased to specific command names for terseness.
