@@ -6,11 +6,12 @@ import optimize from "./optimize.js";
 import zeebe from "./zeebe.js";
 import modeler from "./modeler.js";
 import camunda8 from "./camunda-8.js";
+import processInstances from "./camunda-process-instances.js";
 
 // All API objects accessible to the CLI app are included here.
 //   The name of each property translates to an API object that can be called by the CLI.
 //   e.g. if we export a property named `admin`, you can run `npm run cli admin <action>`.
-const APIs = { admin, optimize, zeebe, modeler, camunda8 };
+const APIs = { admin, optimize, zeebe, modeler, camunda8, processInstances };
 
 // Parse the arguments passed into the CLI, and direct a specific action to a specific API object.
 //   Example: `npm run cli administration list` will find the arguments `administration` and `list`,

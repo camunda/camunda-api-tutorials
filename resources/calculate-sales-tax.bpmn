@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0d3q9yi" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.33.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="calculate-sales-tax" name="Calculate sales tax" isExecutable="true">
+    <bpmn:scriptTask id="Activity_127o6qu" name="Calculate sales tax">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=total * .1" resultVariable="salesTax" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19r30f9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gi65cr</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0gi65cr" sourceRef="Activity_127o6qu" targetRef="Event_15gt9gn" />
+    <bpmn:sequenceFlow id="Flow_19r30f9" sourceRef="StartEvent_1" targetRef="Activity_127o6qu" />
+    <bpmn:startEvent id="StartEvent_1" name="Request to calculate sales tax">
+      <bpmn:outgoing>Flow_19r30f9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_15gt9gn" name="Sales tax calculated">
+      <bpmn:incoming>Flow_0gi65cr</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="calculate-sales-tax">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="145" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xw4lqf_di" bpmnElement="Activity_127o6qu">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15gt9gn_di" bpmnElement="Event_15gt9gn">
+        <dc:Bounds x="432" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="427" y="145" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0gi65cr_di" bpmnElement="Flow_0gi65cr">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="432" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19r30f9_di" bpmnElement="Flow_19r30f9">
+        <di:waypoint x="218" y="120" />
+        <di:waypoint x="270" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
