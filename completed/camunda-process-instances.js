@@ -138,7 +138,7 @@ async function viewInstance([processInstanceKey]) {
 
 // These functions are aliased to specific command names for terseness.
 //   The name of each property translates to a method that can be called by the CLI.
-//   e.g. if we export a function named `list`, you can run `npm run cli zeebe get`.
+//   e.g. if we export a function named `list`, you can run `npm run cli processInstances get`.
 
 export default {
   deploy: deployResources,
