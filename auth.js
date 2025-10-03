@@ -1,12 +1,13 @@
-import { AuthorizationCode } from "simple-oauth2";
+import { ClientCredentials } from "simple-oauth2";
 
-// This function can be used by callers to retrieve a token prior to their API calls.
 /**
+ * Retrieve an access token for Camunda API calls using Client Credentials.
+ *
  * @param {Object} config - A configuration object for authorizing the API client.
  * @param {string} config.clientId - The client ID for the API client.
  * @param {string} config.clientSecret - The client secret for the API client.
  * @param {string} config.audience - The audience associated with the target API.
- * @returns {string}
+ * @returns {Promise<string>} - A valid access token to use in API requests.
  */
 export async function getAccessToken(config) {
   try {
@@ -14,21 +15,21 @@ export async function getAccessToken(config) {
     const tokenParams = getTokenParams(config);
 
     const result = await client.getToken(tokenParams);
-    const accessToken = client.createToken(result);
 
     // Return the actual token that can be passed as an Authorization header in each request.
-    return accessToken.token.token.access_token;
+    return result.token.access_token;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(`Failed to fetch access token: ${error.message}`);
   }
 }
 
-// Configure our authorization request.
 /**
- * @param {Object} config - A configuration object for authorizing the API client.
- * @param {string} config.clientId - The client ID for the API client.
- * @param {string} config.clientSecret - The client secret for the API client.
- * @returns {Object} A configured authorization client.
+ * Configure the OAuth2 client for authorization.
+ *
+ * @param {Object} param0
+ * @param {string} param0.clientId
+ * @param {string} param0.clientSecret
+ * @returns {ClientCredentials} A configured authorization client.
  */
 function configureAuthorizationClient({ clientId, clientSecret }) {
   const config = {
@@ -37,7 +38,7 @@ function configureAuthorizationClient({ clientId, clientSecret }) {
       secret: clientSecret
     },
     auth: {
-      // This is the URL for our auth server.
+      // Default Camunda SaaS token URL; override with ZEEBE_AUTHORIZATION_SERVER_URL if self-managed.
       tokenHost:
         process.env.ZEEBE_AUTHORIZATION_SERVER_URL ||
         "https://login.cloud.camunda.io/oauth/token"
@@ -46,18 +47,19 @@ function configureAuthorizationClient({ clientId, clientSecret }) {
       authorizationMethod: "body"
     }
   };
-  return new AuthorizationCode(config);
+
+  return new ClientCredentials(config);
 }
 
-// Define additional parameters for the authorization request.
 /**
- * @param {Object} config - A configuration object for authorizing the API client.
- * @param {string} config.audience - The audience associated with the target API.
+ * Define additional parameters for the token request.
+ *
+ * @param {Object} param0
+ * @param {string} param0.audience - The audience associated with the target API.
  * @returns {Object} Token parameters for the authorization request.
  */
 function getTokenParams({ audience }) {
   return {
-    // This audience is specific to the Camunda API we are calling.
     audience
   };
 }
