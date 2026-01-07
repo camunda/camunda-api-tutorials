@@ -1,30 +1,35 @@
 import axios from "axios";
 import { getAccessToken } from "./auth.js";
 
-// An action that lists all roles.
+// --------------------------------------------------------------------
+// Template for Camunda 8 API tutorial
+// --------------------------------------------------------------------
+
+// List all roles
 async function listRoles() {
+  // TODO: implement API call to list roles
   console.log("listing roles");
 }
 
-// An action that creates a role.
+// Create a role
 async function createRole([roleName]) {
+  // TODO: implement API call to create a role
   console.log(`adding role ${roleName}`);
 }
 
-// An action that retrieves a role.
+// Retrieve a role
 async function getRole([roleKey]) {
+  // TODO: implement API call to retrieve a role
   console.log(`viewing role ${roleKey}`);
 }
 
-// An action that deletes a role.
+// Delete a role
 async function deleteRole([roleKey]) {
+  // TODO: implement API call to delete a role
   console.log(`deleting role ${roleKey}`);
 }
 
-// These functions are aliased to specific command names for terseness.
-//   The name of each property translates to a method that can be called by the CLI.
-//   e.g. if we export a function named `list`, you can run `npm run cli zeebe get`.
-
+// Export functions for CLI usage
 export default {
   list: listRoles,
   create: createRole,

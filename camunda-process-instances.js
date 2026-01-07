@@ -2,9 +2,11 @@ import path from "path";
 import fs from "fs";
 import axios from "axios";
 import FormData from "form-data";
-import { getAccessToken } from "../auth.js";
+import { getAccessToken } from "./auth.js";
 
-// An action that deploys one or more resources (e.g. processes, decision models, or forms). This is an atomic call, i.e. either all resources are deployed or none of them are.
+// Template for Camunda 8 process instance tutorial.
+
+// An action that deploys one or more resources (e.g. processes, decision models, or forms).
 async function deployResources() {
   console.log("deploying resources");
 }
@@ -16,7 +18,7 @@ async function createInstance() {
 
 // An action that gets the process instance by the process instance key.
 async function viewInstance() {
-    console.log("obtaining process instance");
+  console.log("obtaining process instance");
 }
 
 // These functions are aliased to specific command names for terseness.

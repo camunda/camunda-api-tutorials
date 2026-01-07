@@ -32,20 +32,15 @@ async function deployResources() {
   });
 
   // Configure the API call.
-  const options = {
-    method: "POST",
-    url,
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      ...formData.getHeaders()
-    },
-    data: formData
-  };
-
   try {
-    const response = await axios(options);
-    const deployedResources = response.data.deployments;
+    const response = await axios.post(url, formData, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        ...formData.getHeaders()
+      }
+    });
+    const deployedResources = response.data.deployments || [];
 
     // Emit deployed resources
     deployedResources.forEach(x =>
@@ -55,7 +50,7 @@ async function deployResources() {
     );
   } catch (error) {
     // Emit an error from the server.
-    console.error(error.message);
+    console.error(`Error deploying resources: ${error.message}`);
   }
 }
 
@@ -70,31 +65,27 @@ async function createInstance([processDefinitionKey]) {
   // This is the API endpoint.
   const url = `${camundaApiUrl}/process-instances`;
 
-  // Configure the API call.
-  const options = {
-    method: "POST",
-    url,
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${accessToken}`
-    },
-    data: {
-      processDefinitionKey: processDefinitionKey,
-      variables: {
-        total: 90.0
-      }
+  const payload = {
+    processDefinitionKey,
+    variables: {
+      total: 90.0
     }
   };
 
   try {
-    const response = await axios(options);
+    const response = await axios.post(url, payload, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
     const processInstance = response.data;
 
     // Emit new role to output.
     console.log(`Process Instance Key: ${processInstance.processInstanceKey}`);
   } catch (error) {
     // Emit an error from the server.
-    console.error(error.message);
+    console.error(`Error creating process instance: ${error.message}`);
   }
 }
 
@@ -109,19 +100,14 @@ async function viewInstance([processInstanceKey]) {
   // This is the API endpoint to get a specific role.
   const url = `${camundaApiUrl}/process-instances/${processInstanceKey}`;
 
-  // Configure the API call.
-  const options = {
-    method: "GET",
-    url,
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${accessToken}`
-    }
-  };
-
   try {
     // Call the endpoint.
-    const response = await axios(options);
+    const response = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
 
     // Process the results from the API call.
     const results = response.data;
@@ -132,7 +118,7 @@ async function viewInstance([processInstanceKey]) {
     );
   } catch (error) {
     // Emit an error from the server.
-    console.error(error.message);
+    console.error(`Error retrieving process instance: ${error.message}`);
   }
 }
 
